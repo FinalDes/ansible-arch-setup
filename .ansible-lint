@@ -1,0 +1,12 @@
+---
+# .ansible-lint
+profile: production # Enforce strict production standards
+strict: true # Fail the build on any warnings, not just errors
+
+# Stop linting third-party roles downloaded from Galaxy
+exclude_paths:
+  - .ansible
+
+# # Ignore rules that cause too much noise for your specific team
+# skip_list:
+#   - experimental # Don't fail builds based on experimental rules

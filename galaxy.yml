@@ -3,6 +3,8 @@
 namespace: finaldes
 name: arch_setup
 version: 1.0.0
+dependencies:
+  community.general: ">=12.6.0"
 readme: README.md
 authors:
   - Alex Alonso <alex4551@gmail.com>
