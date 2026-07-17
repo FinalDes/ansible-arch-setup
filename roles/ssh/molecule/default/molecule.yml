@@ -1,0 +1,21 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: molecule_incus
+platforms:
+  - name: instance-test
+    image: "images:archlinux/current/cloud/amd64"
+    project: default
+    vm: false
+    config:
+      # Inject cloud-init user-data here
+      user.user-data: |
+        #cloud-config
+        package_update: true
+        packages:
+          - python
+provisioner:
+  name: ansible
+verifier:
+  name: ansible

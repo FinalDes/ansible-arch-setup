@@ -4,7 +4,15 @@
   community.general.pacman:
     name: openssh
     state: present
-
+- name: copy config file
+  ansible.builtin.copy:
+        src: files/harderning.conf
+        dest: /etc/ssh/sshd_config.d/999-harderning.conf
+        owner: root
+        group: root
+        mode: '0644'
+        validate: /usr/sbin/sshd -t -f %s
+      notify: Restart SSH
 - name: Ensure sshd is running and enabled
   ansible.builtin.service:
     name: sshd

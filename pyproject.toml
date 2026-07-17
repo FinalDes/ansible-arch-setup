@@ -6,12 +6,20 @@ authors = [{ name = "Alex Alonso", email = "alex4551@gmail.com" }]
 license = { text = "Apache-2.0" }
 readme = "README.md"
 requires-python = ">=3.14"
-dependencies = ["ansible-core>=2.21.1", "ansible-lint>=26.6.0"]
+dependencies = [
+    "ansible-core>=2.21.1",
+    "ansible-lint>=26.6.0",
+    "molecule-incus",
+    "ssh-audit>=3.9.0",
+]
 [project.urls]
 Homepage = "https://github.com/finaldes/ansible-arch-setup"
 Repository = "https://github.com/finaldes/ansible-arch-setup"
 Issues = "https://github.com/finaldes/ansible-arch-setup/issues"
 
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+[tool.uv]
+# This tells uv not to try and build the current directory as a package
+package = false
+
+[tool.uv.sources]
+molecule-incus = { git = "https://gitlab.triumf.ca/ist/ansible/molecule/molecule-incus.git", rev = "0.1.3" }
