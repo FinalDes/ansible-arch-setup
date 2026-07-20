@@ -4,15 +4,35 @@
   community.general.pacman:
     name: openssh
     state: present
-- name: copy config file
+- name: Ensure ssh_users group exists
+  ansible.builtin.group:
+    name: ssh_users
+    state: present
+- name: Add current user to ssh_users group
+  ansible.builtin.user:
+    name: "{{ ansible_user_id }}"
+    groups: "{{ ssh_user_group }}"
+    append: true
+  when: ssh_add_ssh_user | bool
+- name: Copy ssh-audit config file
   ansible.builtin.copy:
-        src: files/harderning.conf
-        dest: /etc/ssh/sshd_config.d/999-harderning.conf
-        owner: root
-        group: root
-        mode: '0644'
-        validate: /usr/sbin/sshd -t -f %s
-      notify: Restart SSH
+    src: ssh-audit_hardening.conf
+    dest: /etc/ssh/sshd_config.d/999-audit_hardening.conf
+    owner: root
+    group: root
+    mode: "0644"
+    validate: /usr/sbin/sshd -t -f %s
+  notify: Restart SSH
+  when: ssh_restrict_key_exchange | bool
+- name: Configure SSH to disable weak host keys
+  ansible.builtin.template:
+    src: hardening.conf.j2
+    dest: /etc/ssh/sshd_config.d/999-host_hardening.conf
+    owner: root
+    group: root
+    mode: "0644"
+    validate: /usr/sbin/sshd -t -f %s
+  notify: Restart sshd
 - name: Ensure sshd is running and enabled
   ansible.builtin.service:
     name: sshd

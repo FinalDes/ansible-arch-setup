@@ -1,0 +1,22 @@
+HostKeyAlgorithms ssh-ed25519
+HostKey /etc/ssh/ssh_host_ed25519_key
+{% if ssh_permit_root_login and ssh_public_key_path %}
+PermitRootLogin prohibit-password
+{% elif ssh_permit_root_login %}
+PermitRootLogin yes
+{% else %}
+PermitRootLogin no
+{% endif %}
+PermitEmptyPasswords no
+KbdInteractiveAuthentication no
+PasswordAuthentication {{ 'no' if ssh_public_key_path | default('') else 'yes' }}
+AllowAgentForwarding true
+AllowTcpForwarding true
+PubkeyAuthentication yes
+X11Forwarding no
+ClientAliveInterval 300
+ClientAliveCountMax 2
+TCPKeepAlive no
+PerSourceMaxStartups 1
+MaxStartups 10:30:100
+AllowGroups {{ssh_user_group}}

@@ -1,0 +1,34 @@
+---
+argument_specs:
+  main:
+    short_description: Harden and configure OpenSSH server and sudo behavior.
+    description:
+      - Install and configure OpenSSH with secure defaults.
+      - Optionally harden crypto algorithms and disable password authentication.
+      - Manage sudo password-less access for the connecting user.
+    author:
+      - Alex Alonso
+    options:
+      ssh_permit_root_login:
+        description:
+          - Allow direct root SSH login. Strongly discouraged; disabled by default.
+        type: bool
+        default: false
+      ssh_restrict_key_exchange:
+        description:
+          - Deploy hardened ssh-audit configuration limiting key exchange, ciphers, and MACs.
+        type: bool
+        default: false
+      ssh_add_ssh_user:
+        description:
+          - current user add to ssh_user group
+        type: bool
+        default: true
+      ssh_user_group:
+        type: str
+        default: "ssh_access_group"
+        description: "The name of the group to add the user to."
+      ssh_public_key_path:
+        description:
+          - Path to a public key file whose content will be added to the user's authorized_keys.
+          - If undefined, no key is added.

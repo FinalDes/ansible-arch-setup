@@ -1,2 +1,6 @@
 ---
 # defaults file for roles/ssh
+ssh_restrict_key_exchange: false
+ssh_permit_root_login: false
+ssh_add_ssh_user: true
+ssh_user_group: "ssh_access_group"
