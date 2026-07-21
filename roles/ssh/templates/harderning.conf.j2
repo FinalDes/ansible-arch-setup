@@ -10,8 +10,8 @@ PermitRootLogin no
 PermitEmptyPasswords no
 KbdInteractiveAuthentication no
 PasswordAuthentication {{ 'no' if ssh_public_key_path | default('') else 'yes' }}
-AllowAgentForwarding true
-AllowTcpForwarding true
+AllowAgentForwarding yes
+AllowTcpForwarding yes
 PubkeyAuthentication yes
 X11Forwarding no
 ClientAliveInterval 300

@@ -1,0 +1,36 @@
+---
+dependency:
+  name: galaxy
+  options:
+    role-file: requirements.yml
+    requirements-file: collections.yml
+
+driver:
+  name: default
+  options:
+    managed: false
+
+platforms:
+  - name: custom-arch-server
+
+provisioner:
+  name: ansible
+  inventory:
+    hosts:
+      all:
+        hosts:
+          custom-arch-server:
+            ansible_connection: community.general.incus
+            ansible_user: ansible
+
+verifier:
+  name: ansible
+
+scenario:
+  name: dedicated
+  test_sequence:
+    - dependency
+    - syntax
+    - converge
+    - idempotence
+    - verify
