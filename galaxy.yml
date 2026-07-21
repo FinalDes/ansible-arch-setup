@@ -29,3 +29,15 @@ repository: https://github.com/finaldes/ansible-arch-setup
 documentation: https://github.com/finaldes/ansible-arch-setup/wiki
 homepage: https://github.com/finaldes/ansible-arch-setup
 issues: https://github.com/finaldes/ansible-arch-setup/issues
+
+# Files and directories to exclude from the built collection tarball
+build_ignore:
+  - ".github"
+  - ".ansible"
+  - ".venv"
+  - ".python-version"
+  - "extensions"
+  - "pyproject.toml"
+  - "uv.lock"
+  - "requirements.yml"
+  - "roles.ansible-lint"
