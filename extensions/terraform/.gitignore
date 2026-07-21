@@ -1,0 +1,29 @@
+# Local OpenTofu working directory (contains provider plugins and metadata)
+.terraform/
+.tofu/
+
+# OpenTofu state files (contains plain-text secrets and infrastructure metadata)
+*.tfstate
+*.tfstate.*
+
+# Crash logs (generated if OpenTofu crashes)
+crash.log
+crash.*.log
+
+# Sensitive variable definitions
+*.tfvars
+*.tfvars.json
+*.tofuvars
+*.tofuvars.json
+
+# Override files (local developer overrides, rarely used)
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Local CLI configuration files
+.terraformrc
+terraform.rc
+.tofurc
+tofu.rc
