@@ -6,13 +6,19 @@ driver:
 platforms:
   - name: instance-test
     image: "images:archlinux/current/cloud/amd64"
+    ssh_user: ansible
+    ansible_user: ansible
     project: default
     vm: false
     config:
-      # Inject cloud-init user-data here
       user.user-data: |
         #cloud-config
+        users:
+          - name: ansible
+            sudo: ['ALL=(ALL) NOPASSWD:ALL']
+            shell: /bin/bash
         package_update: true
+        package_upgrade: true
         packages:
           - python
 provisioner:

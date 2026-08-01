@@ -27,7 +27,7 @@ verifier:
   name: ansible
 
 scenario:
-  name: dedicated
+  name: deployment
   test_sequence:
     - dependency
     - syntax

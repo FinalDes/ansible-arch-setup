@@ -1,0 +1,31 @@
+---
+# Purpose: bring the instance to the desired state by running the role under test.
+# Molecule calls this playbook with `molecule converge`.
+- name: Converge
+  hosts: all
+  gather_facts: false # Disable if your role does not rely on facts
+  tasks:
+    - name: Gather Facts
+      ansible.builtin.setup:
+        gather_subset:
+          - '!all'
+          - '!min'
+          - 'user'
+    - name: Debug user facts
+      ansible.builtin.debug:
+        msg: "The user_id fact is: {{ ansible_facts['user_id'] }}"
+    # - name: Debug connection user
+    #   ansible.builtin.debug:
+    #     msg: "Ansible is connecting as user: {{ hostvars[inventory_hostname]['ansible_user'] }}"
+    - name: Check actual logged-in user via command
+      ansible.builtin.command: whoami
+      become: false
+      register: shell_user
+
+    - name: Debug shell user
+      ansible.builtin.debug:
+        msg: "Shell execution user is: {{ shell_user.stdout }}"
+
+    - name: Apply role under test
+      ansible.builtin.include_role:
+        name: finaldes.arch_setup.ssh
