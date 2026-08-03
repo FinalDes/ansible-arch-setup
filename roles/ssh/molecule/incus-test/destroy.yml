@@ -1,0 +1,29 @@
+---
+- name: Destroy
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    # 1. FIX: Added the actual Incus container deletion loop
+    - name: Destroy Incus containers
+      community.general.lxd_container:
+        name: "{{ item.name }}"
+        state: absent
+        url: "unix:/var/lib/incus/unix.socket"
+        # Force stops the container if it is currently running
+        force_stop: true 
+        timeout: 300
+      loop: "{{ molecule_yml.platforms }}"
+      register: server
+    - name: Populate instance config (empty list)
+      ansible.builtin.set_fact:
+        instance_conf: []
+
+    - name: Dump empty instance config back to Molecule cache
+      ansible.builtin.copy:
+        content: |
+          # Molecule managed
+
+          {{ instance_conf | to_json | from_json | to_yaml }}
+        dest: "{{ molecule_instance_config }}"
+        mode: "0600"

@@ -1,0 +1,21 @@
+---
+# Purpose: bring the instance to the desired state by running the role under test.
+# Molecule calls this playbook with `molecule converge`.
+- name: Converge
+  hosts: all
+  gather_facts: false # Disable if your role does not rely on facts
+  pre_tasks:
+    - name: Bootstrap Python on Arch Linux targets
+      ansible.builtin.raw: pacman -Syu --needed --noconfirm python
+      become: true
+      changed_when: false
+    - name: Gather Facts
+      ansible.builtin.setup:
+        gather_subset:
+          - '!all'
+          - '!min'
+          - 'user'
+  roles:
+    - name: Install ssh
+      role: finaldes.arch_setup.ssh
+      become: true
