@@ -6,9 +6,10 @@
   gather_facts: false # Disable if your role does not rely on facts
   pre_tasks:
     - name: Bootstrap Python on Arch Linux targets
-      ansible.builtin.raw: pacman -Syu --needed --noconfirm python
-      become: true
-      changed_when: false
+      ansible.builtin.include_role:
+        name: ../../../python_bootstrap
+        apply:
+          become: true
     - name: Gather Facts
       ansible.builtin.setup:
         gather_subset:

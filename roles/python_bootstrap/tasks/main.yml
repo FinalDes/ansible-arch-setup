@@ -1,0 +1,14 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for python_bootstrap
+- name: Update pacman mirrorlist or refresh databases safely
+  ansible.builtin.raw: pacman -Syu --noconfirm
+  changed_when: false
+  register: pacman_sync
+  retries: 3
+  delay: 5
+  until: pacman_sync is success
+
+- name: Install Python
+  ansible.builtin.raw: pacman -S --needed --noconfirm python
+  changed_when: false

@@ -6,8 +6,6 @@ dependency:
     ignore-certs: false
     ignore-errors: false
     role-file: requirements.yml
-    requirements-file: collections.yml
-
 driver: 
   name: default
 platforms:
@@ -20,17 +18,11 @@ platforms:
         - name: ansible
           sudo: ['ALL=(ALL) NOPASSWD:ALL']
           shell: /bin/bash
-      # package_update: true
-      # package_upgrade: true
-      # packages:
-      #   - python
 ansible:
   cfg:
     defaults:
       host_key_checking: false
       verbosity: 1
-    ssh_connection:
-      pipelining: true
   env:
     ANSIBLE_FORCE_COLOR: "1"
     ANSIBLE_LOAD_CALLBACK_PLUGINS: "1"
@@ -51,23 +43,16 @@ ansible:
     create: create.yml
     converge: converge.yml
     destroy: destroy.yml
-    cleanup: cleanup.yml
-    prepare: prepare.yml
-    side_effect: side_effect.yml
     verify: verify.yml
 
 scenario:
   name: incus-test
   test_sequence:
     - dependency
-    - cleanup
     - destroy
     - syntax
     - create
-    - prepare
     - converge
     - idempotence
-    - side_effect
     - verify
-    - cleanup
     - destroy
