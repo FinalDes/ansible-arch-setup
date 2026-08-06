@@ -28,9 +28,6 @@
              {{ item['cloud-config'] | default('#cloud-config') }}
       loop: "{{ molecule_yml.platforms }}" 
       register: server
-    - name: Sleep for 30 seconds
-      ansible.builtin.pause:
-        seconds: 30
     - name: Create instance config
       block:
         - name: Populate instance config dict  # noqa jinja
