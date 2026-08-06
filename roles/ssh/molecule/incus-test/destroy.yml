@@ -11,7 +11,7 @@
         state: absent
         url: "unix:/var/lib/incus/unix.socket"
         # Force stops the container if it is currently running
-        force_stop: true 
+        force_stop: true
         timeout: 300
       loop: "{{ molecule_yml.platforms }}"
       register: server

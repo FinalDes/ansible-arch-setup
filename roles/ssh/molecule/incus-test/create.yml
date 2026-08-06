@@ -18,25 +18,25 @@
           mode: pull
           server: https://images.linuxcontainers.org/
           protocol: simplestreams
-          alias: "{{item.image}}"
+          alias: "{{ item.image }}"
         profiles: ["default"]
         wait_for_ipv4_addresses: true
         wait_for_container: true
         timeout: 600
         config:
           cloud-init.user-data: |
-             {{ item['cloud-config'] | default('#cloud-config') }}
-      loop: "{{ molecule_yml.platforms }}" 
+            {{ item['cloud-config'] | default('#cloud-config') }}
+      loop: "{{ molecule_yml.platforms }}"
       register: server
     - name: Create instance config
       block:
-        - name: Populate instance config dict  # noqa jinja
+        - name: Populate instance config dict # noqa jinja
           ansible.builtin.set_fact:
-            instance_conf_dict: 
+            instance_conf_dict:
               instance: "{{ item.item.name }}"
-              address: "{{ item.item.name }}" 
+              address: "{{ item.item.name }}"
               user: "{{ item.item.login_user | default('root') }}"
-              connection: community.general.incus 
+              connection: community.general.incus
           with_items: "{{ server.results }}"
           register: instance_config_dict
 

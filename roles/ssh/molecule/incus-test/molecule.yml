@@ -6,7 +6,7 @@ dependency:
     ignore-certs: false
     ignore-errors: false
     role-file: requirements.yml
-driver: 
+driver:
   name: default
 platforms:
   - name: molecule-test

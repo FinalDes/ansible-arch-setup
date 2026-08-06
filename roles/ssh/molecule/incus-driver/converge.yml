@@ -8,9 +8,9 @@
     - name: Gather Facts
       ansible.builtin.setup:
         gather_subset:
-          - '!all'
-          - '!min'
-          - 'user'
+          - "!all"
+          - "!min"
+          - "user"
     - name: Debug user facts
       ansible.builtin.debug:
         msg: "The user_id fact is: {{ ansible_facts['user_id'] }}"

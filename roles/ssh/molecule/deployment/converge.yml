@@ -8,9 +8,9 @@
     - name: Gather Facts
       ansible.builtin.setup:
         gather_subset:
-          - '!all'
-          - '!min'
-          - 'user'
+          - "!all"
+          - "!min"
+          - "user"
   roles:
     - name: Install ssh
       role: finaldes.arch_setup.ssh
