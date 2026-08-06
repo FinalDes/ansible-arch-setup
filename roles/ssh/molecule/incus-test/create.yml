@@ -27,7 +27,7 @@
           cloud-init.user-data: |
             {{ item['cloud-config'] | default('#cloud-config') }}
       loop: "{{ molecule_yml.platforms }}"
-      register: server
+      register: server # noqa: var-naming[no-role-prefix]
     - name: Create instance config
       block:
         - name: Populate instance config dict # noqa jinja
@@ -38,9 +38,9 @@
               user: "{{ item.item.login_user | default('root') }}"
               connection: community.general.incus
           with_items: "{{ server.results }}"
-          register: instance_config_dict
+          register: instance_config_dict # noqa: var-naming[no-role-prefix]
 
-        - name: Convert instance config dict to a list
+        - name: Convert instance config dict to a list # noqa: var-naming[no-role-prefix]
           ansible.builtin.set_fact:
             instance_conf: "{{ instance_config_dict.results | map(attribute='ansible_facts.instance_conf_dict') | list }}"
 

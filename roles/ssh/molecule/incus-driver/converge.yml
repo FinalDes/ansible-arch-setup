@@ -20,7 +20,8 @@
     - name: Check actual logged-in user via command
       ansible.builtin.command: whoami
       become: false
-      register: shell_user
+      register: shell_user # noqa: var-naming[no-role-prefix]
+      changed_when: false
 
     - name: Debug shell user
       ansible.builtin.debug:

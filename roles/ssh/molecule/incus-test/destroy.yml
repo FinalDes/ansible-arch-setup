@@ -14,8 +14,8 @@
         force_stop: true
         timeout: 300
       loop: "{{ molecule_yml.platforms }}"
-      register: server
-    - name: Populate instance config (empty list)
+      register: server # noqa: var-naming[no-role-prefix]
+    - name: Populate instance config (empty list) # noqa: var-naming[no-role-prefix]
       ansible.builtin.set_fact:
         instance_conf: []
 
