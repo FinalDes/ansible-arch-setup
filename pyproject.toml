@@ -8,9 +8,10 @@ readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
     "ansible-core>=2.21.1",
+    "ansible-dev-environment>=26.8.0",
     "ansible-docsmith>=2.1.0",
     "ansible-lint>=26.6.0",
-    "molecule-incus",
+    # "molecule-incus",
     "ssh-audit>=3.9.0",
 ]
 [project.urls]
@@ -22,5 +23,5 @@ Issues = "https://github.com/finaldes/ansible-arch-setup/issues"
 # This tells uv not to try and build the current directory as a package
 package = false
 
-[tool.uv.sources]
-molecule-incus = { git = "https://gitlab.triumf.ca/ist/ansible/molecule/molecule-incus.git", rev = "0.1.3" }
+# [tool.uv.sources]
+# molecule-incus = { git = "https://gitlab.triumf.ca/ist/ansible/molecule/molecule-incus.git", rev = "0.1.3" }
