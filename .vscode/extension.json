@@ -1,0 +1,7 @@
+{
+  "recommendations": [
+    "redhat.ansible",
+    "redhat.vscode-redhat-account",
+    "tamasfe.even-better-toml"
+  ]
+}
