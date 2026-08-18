@@ -1,0 +1,54 @@
+---
+- name: Create
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  # no_log: "{{ molecule_no_log }}"
+  tasks:
+    # TODO: Developer must implement and populate 'server' variable
+    - name: Create a started container
+      community.general.lxd_container:
+        name: "{{ item.name }}"
+        ignore_volatile_options: true
+        state: started
+        type: container
+        url: "unix:/var/lib/incus/unix.socket"
+        source:
+          type: image
+          mode: pull
+          server: https://images.linuxcontainers.org/
+          protocol: simplestreams
+          alias: "{{ item.image }}"
+        profiles: ["default"]
+        wait_for_ipv4_addresses: true
+        wait_for_container: true
+        timeout: 600
+        config:
+          cloud-init.user-data: |
+            {{ item['cloud-config'] | default('#cloud-config') }}
+      loop: "{{ molecule_yml.platforms }}"
+      register: server # noqa: var-naming[no-role-prefix]
+    - name: Create instance config
+      block:
+        - name: Populate instance config dict # noqa jinja
+          ansible.builtin.set_fact:
+            instance_conf_dict:
+              instance: "{{ item.item.name }}"
+              address: "{{ item.item.name }}"
+              user: "{{ item.item.login_user | default('root') }}"
+              connection: community.general.incus
+          with_items: "{{ server.results }}"
+          register: instance_config_dict # noqa: var-naming[no-role-prefix]
+
+        - name: Convert instance config dict to a list # noqa: var-naming[no-role-prefix]
+          ansible.builtin.set_fact:
+            instance_conf: "{{ instance_config_dict.results | map(attribute='ansible_facts.instance_conf_dict') | list }}"
+
+        - name: Dump instance config
+          ansible.builtin.copy:
+            content: |
+              # Molecule managed
+
+              {{ instance_conf | to_json | from_json | to_yaml }}
+            dest: "{{ molecule_instance_config }}"
+            mode: "0600"

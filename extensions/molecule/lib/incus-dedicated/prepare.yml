@@ -1,0 +1,10 @@
+---
+# Purpose: bring the instance to the desired state by running the role under test.
+# Molecule calls this playbook with `molecule converge`.
+- name: Prepare
+  hosts: all
+  gather_facts: false # Disable if your role does not rely on facts
+  roles:
+    - name: Bootstrap Python on Arch Linux targets
+      role: finaldes.arch_setup.python_bootstrap
+      become: true
