@@ -14,10 +14,13 @@
     groups: "{{ ssh_user_group }}"
     append: true
   when: ssh_add_ssh_user | bool
-- name: Ensure SSH host keys exist for validation
-  ansible.builtin.command: ssh-keygen -A
-  args:
-    creates: /etc/ssh/ssh_host_ed25519_key
+- name: Generate the Ed25519 SSH host key natively
+  community.crypto.openssh_keypair:
+    path: /etc/ssh/ssh_host_ed25519_key
+    type: ed25519
+    owner: root
+    group: root
+    mode: "0600"
 - name: Copy ssh-audit config file
   ansible.builtin.copy:
     src: ssh-audit_hardening.conf
