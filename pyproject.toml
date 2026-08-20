@@ -6,16 +6,7 @@ authors = [{ name = "Alex Alonso", email = "alex4551@gmail.com" }]
 license = { text = "Apache-2.0" }
 readme = "README.md"
 requires-python = ">=3.14"
-dependencies = [
-    "ansible-argument-spec-generator>=1.2.0",
-    "ansible-core>=2.21.1",
-    # "ansible-docsmith>=2.1.0",
-    "ansible-lint>=26.6.0",
-    # "molecule-incus",
-    "molecule>=26.8.0",
-    "pre-commit>=4.6.2",
-    "ssh-audit>=3.9.0",
-]
+dependencies = ["ansible-core>=2.21.1"]
 [project.urls]
 Homepage = "https://github.com/finaldes/ansible-arch-setup"
 Repository = "https://github.com/finaldes/ansible-arch-setup"
@@ -24,6 +15,22 @@ Issues = "https://github.com/finaldes/ansible-arch-setup/issues"
 [tool.uv]
 # This tells uv not to try and build the current directory as a package
 package = false
+
+[tool.poe.tasks]
+precommit = "pre-commit run --all-files"
+
+[dependency-groups]
+dev = [
+    "poethepoet>=0.48.0",
+    "ansible-argument-spec-generator>=1.2.0",
+    # "ansible-docsmith>=2.1.0",
+    "ansible-lint>=26.6.0",
+    # "molecule-incus",
+    "molecule>=26.8.0",
+    "pre-commit>=4.6.2",
+    "ssh-audit>=3.9.0",
+]
+
 
 # [tool.uv.sources]
 # molecule-incus = { git = "https://gitlab.triumf.ca/ist/ansible/molecule/molecule-incus.git", rev = "0.1.3" }
