@@ -1,0 +1,14 @@
+---
+argument_specs:
+  main:
+    description:
+      - install yay on arch linux
+    author:
+      - Alex Alonso
+    options:
+      yay_pre_compile:
+        description: Boolean flag to control yay pre compile
+        type: bool
+        default: true
+        version_added: 1.0.0
+...
