@@ -3,6 +3,18 @@ revision = 3
 requires-python = ">=3.14"
 
 [[package]]
+name = "ansible-argument-spec-generator"
+version = "1.2.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pyyaml" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/3a/8c/d3c8c75c624aa0f9599d666462788dc3aadac4524d5841bf318d7464bc1a/ansible_argument_spec_generator-1.2.0.tar.gz", hash = "sha256:b50adf87c10c6c4d9150403a0efba383884ec8941d640019d0215be7250c3f77", size = 39796, upload-time = "2026-08-13T20:06:48.85Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c1/04/31d1a2675e592fc361d7b91f41570ed7dff5af5fd9463de2688bc0959dce/ansible_argument_spec_generator-1.2.0-py3-none-any.whl", hash = "sha256:e4632e6f9d150c8824fa1938d88079d8f1f55ee3310fec2a9518b30b16be49fa", size = 34746, upload-time = "2026-08-13T20:06:47.621Z" },
+]
+
+[[package]]
 name = "ansible-compat"
 version = "26.8.0"
 source = { registry = "https://pypi.org/simple" }
@@ -66,6 +78,7 @@ name = "arch-setup"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
+    { name = "ansible-argument-spec-generator" },
     { name = "ansible-core" },
     { name = "ansible-lint" },
     { name = "molecule" },
@@ -75,6 +88,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
+    { name = "ansible-argument-spec-generator", specifier = ">=1.2.0" },
     { name = "ansible-core", specifier = ">=2.21.1" },
     { name = "ansible-lint", specifier = ">=26.6.0" },
     { name = "molecule", specifier = ">=26.8.0" },
