@@ -1,0 +1,60 @@
+---
+# Dependency management (download roles/collections)
+dependency:
+  name: galaxy
+  options:
+    ignore-certs: false
+    ignore-errors: false
+    role-file: requirements.yml
+driver:
+  name: default
+platforms:
+  - name: molecule-test
+    image: archlinux/current/cloud/amd64
+    login_user: ansible
+    cloud-config: |
+      #cloud-config
+      users:
+        - name: ansible
+          sudo: ['ALL=(ALL) NOPASSWD:ALL']
+          shell: /bin/bash
+ansible:
+  cfg:
+    defaults:
+      host_key_checking: false
+      verbosity: 1
+  env:
+    ANSIBLE_FORCE_COLOR: "1"
+    ANSIBLE_LOAD_CALLBACK_PLUGINS: "1"
+
+  executor:
+    backend: ansible-playbook
+    args:
+      ansible_playbook:
+        - --diff
+        - --force-handlers
+        # - --inventory=/path/to/inventory.yml
+      # ansible_navigator:
+      #   - --mode stdout
+      #   - --pull-policy missing
+      #   - --execution-environment-image ghcr.io/ansible/community-ansible-dev-tools:latest
+
+  playbooks:
+    create: ../lib/incus-dedicated/create.yml
+    prepare: ../lib/incus-dedicated/prepare.yml
+    converge: converge.yml
+    destroy: ../lib/incus-dedicated/destroy.yml
+    verify: verify.yml
+
+scenario:
+  name: yay-incus-test
+  test_sequence:
+    - dependency
+    - destroy
+    - syntax
+    - create
+    - prepare
+    - converge
+    - idempotence
+    - verify
+    - destroy

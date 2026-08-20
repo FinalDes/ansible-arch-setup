@@ -1,0 +1,39 @@
+---
+# tasks file for yay
+- name: Ensure base-devel and git are installed
+  community.general.pacman:
+    name:
+      - base-devel
+      - git
+    state: present
+    update_cache: true
+  become: true
+- name: Check if yay is already installed
+  ansible.builtin.command: which yay
+  register: yay_check
+  failed_when: false
+  changed_when: false
+- name: Clone and build yay
+  when: yay_check.rc != 0
+  block:
+    - name: Create local build directory
+      ansible.builtin.file:
+        path: "{{ yay_build_dir }}"
+        state: directory
+        mode: "0755"
+    - name: Clone yay repository from AUR
+      ansible.builtin.git:
+        repo: "https://aur.archlinux.org/yay.git"
+        dest: "{{ yay_build_dir }}"
+        depth: 1
+        update: true
+        # noqa: latest
+      # Runs entirely as your local user (no become needed here
+    - name: Build and install yay package (pacman needs sudo)
+      ansible.builtin.command: makepkg -si --noconfirm
+      args:
+        chdir: "{{ yay_build_dir }}"
+      changed_when: true
+      # noqa: no-changed-when
+      # makepkg handles its own sudo prompts for pacman,
+      # or you can run it without become since makepkg blocks root builds anyway.
