@@ -1,8 +1,8 @@
 ---
 # Purpose: bring the instance to the desired state by running the role under test.
 # Molecule calls this playbook with `molecule converge`.
-- name: Converge
-  hosts: all
+- name: Converge Standard Compilation
+  hosts: arch-yay-test
   gather_facts: false # Disable if your role does not rely on facts
   pre_tasks:
     - name: Gather Facts
@@ -14,3 +14,19 @@
   roles:
     - name: Install yay
       role: finaldes.arch_setup.yay
+      yay_pre_compile: false
+
+- name: Converge Precompiled Binary
+  hosts: arch-yay-bin-test
+  gather_facts: false # Disable if your role does not rely on facts
+  pre_tasks:
+    - name: Gather Facts
+      ansible.builtin.setup:
+        gather_subset:
+          - "!all"
+          - "!min"
+          - "env"
+  roles:
+    - name: Install yay
+      role: finaldes.arch_setup.yay
+      yay_pre_compile: true

@@ -1,3 +1,4 @@
 ---
 # vars file for yay
 yay_build_dir: "{{ ansible_facts['env']['HOME'] }}/tmp/yay"
+yay_package_name: "{{ 'yay-bin' if yay_pre_compile else 'yay' }}"
