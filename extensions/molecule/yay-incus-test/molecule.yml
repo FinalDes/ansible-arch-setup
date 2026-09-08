@@ -12,21 +12,23 @@ platforms:
   - name: arch-yay-test
     image: archlinux/current/cloud/amd64
     login_user: ansible
-    cloud-config: |
-      #cloud-config
-      users:
-        - name: ansible
-          sudo: ['ALL=(ALL) NOPASSWD:ALL']
-          shell: /bin/bash
+    config:
+      cloud-init.user-data: |
+        #cloud-config
+        users:
+          - name: ansible
+            sudo: ['ALL=(ALL) NOPASSWD:ALL']
+            shell: /bin/bash
   - name: arch-yay-bin-test
     image: archlinux/current/cloud/amd64
     login_user: ansible
-    cloud-config: |
-      #cloud-config
-      users:
-        - name: ansible
-          sudo: ['ALL=(ALL) NOPASSWD:ALL']
-          shell: /bin/bash
+    config:
+      cloud-init.user-data: |
+        #cloud-config
+        users:
+          - name: ansible
+            sudo: ['ALL=(ALL) NOPASSWD:ALL']
+            shell: /bin/bash
 ansible:
   cfg:
     defaults:

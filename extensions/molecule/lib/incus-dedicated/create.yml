@@ -23,9 +23,7 @@
         wait_for_ipv4_addresses: true
         wait_for_container: true
         timeout: 600
-        config:
-          cloud-init.user-data: |
-            {{ item['cloud-config'] | default('#cloud-config') }}
+        config: "{{ item.config | default({}) }}"
       loop: "{{ molecule_yml.platforms }}"
       register: server # noqa: var-naming[no-role-prefix]
     - name: Create instance config
