@@ -17,8 +17,8 @@ Issues = "https://github.com/finaldes/ansible-arch-setup/issues"
 package = false
 
 [tool.poe.tasks]
+precommit-install = "pre-commit install-hooks"
 precommit = "pre-commit run --all-files"
-
 [dependency-groups]
 dev = [
     "poethepoet>=0.48.0",
