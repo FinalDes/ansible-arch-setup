@@ -6,6 +6,7 @@ on:
       - "main"
     paths-ignore:
       - ".github/**"
+      - "!.github/workflows/uv-setup.yml"
       - ".vscode/**"
       - "README.md"
       - .gitignore
@@ -14,6 +15,7 @@ on:
       - "main"
     paths-ignore:
       - ".github/**"
+      - "!.github/workflows/uv-setup.yml"
       - ".vscode/**"
       - "README.md"
       - .gitignore
@@ -25,7 +27,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7.0.2
+        uses: actions/checkout@v7.0.1
 
       - name: Read python version from file
         id: get-python-version
