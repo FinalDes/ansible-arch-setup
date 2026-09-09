@@ -1,0 +1,22 @@
+# .github/dependabot.yml
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/" # Root directory
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "uv"
+    directory: "/" # Root directory where pyproject.toml and uv.lock live
+    schedule:
+      interval: "daily"
+    allow:
+      - dependency-type: "all"
+    groups:
+      uv-dependencies: # Removed space from the key to avoid strict parser errors
+        patterns:
+          - "*" #  Matches all package names (like ruff, fastapi, etc.)
+        update-types:
+          - "patch" # Fixed syntax error
+          - "minor" # Fixed syntax error
+          - "major" # Fixed syntax error
