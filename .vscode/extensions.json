@@ -3,6 +3,7 @@
     "redhat.ansible",
     "redhat.vscode-redhat-account",
     "tamasfe.even-better-toml",
-    "opentofu.vscode-opentofu"
+    "opentofu.vscode-opentofu",
+    "nx10.gha-version-checker"
   ]
 }

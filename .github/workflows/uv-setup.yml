@@ -1,0 +1,48 @@
+name: Check uv sync
+
+on:
+  pull_request:
+    branches:
+      - "main"
+    paths-ignore:
+      - ".github/**"
+      - ".vscode/**"
+      - "README.md"
+      - .gitignore
+  push:
+    branches:
+      - "main"
+    paths-ignore:
+      - ".github/**"
+      - ".vscode/**"
+      - "README.md"
+      - .gitignore
+
+jobs:
+  uv:
+    name: uv sync
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7.0.2
+
+      - name: Read python version from file
+        id: get-python-version
+        run: echo "python_version=$(cat .python-version)" >> "$GITHUB_OUTPUT"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v10.0.1
+        with:
+          python-version: ${{ steps.get-python-version.outputs.python_version }}
+          # activate-environment: true
+          enable-cache: true
+
+      - name: Check uv.lock sync
+        run: uv sync --locked --all-extras --dev
+
+      - name: ansible-lint
+        run: uv run ansible-lint .
+
+      - name: Minimize uv cache
+        run: uv cache prune --ci
