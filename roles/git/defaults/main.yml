@@ -1,0 +1,4 @@
+---
+# defaults file for git_setup
+git_default_branch: main
+git_use_1password: false

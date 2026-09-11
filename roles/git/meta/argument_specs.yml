@@ -1,0 +1,34 @@
+---
+argument_specs:
+  main:
+    short_description: Auto-generated specs for git role - main entry point
+    description:
+      - Setup git
+    author:
+      - Alex Alonso
+    options:
+      git_default_branch:
+        description: "Default branch name name default to main"
+        type: str
+        default: main
+        version_added: 1.0.0
+      git_email:
+        description: "Email use on git commit"
+        type: str
+        required: true
+        version_added: 1.0.0
+      git_name:
+        description: "name use on github project"
+        type: str
+        required: true
+        version_added: 1.0.0
+      git_signingkey:
+        description: "Variable used in templates: git_signingkey"
+        type: str
+        required: false
+        version_added: 1.0.0
+      git_use_1password:
+        description: use 1password password agent or not
+        type: bool
+        default: false
+        version_added: 1.0.0

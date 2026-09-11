@@ -1,0 +1,6 @@
+---
+- name: Git setup test
+  hosts: localhost
+  remote_user: root
+  roles:
+    - finaldes.arch_setup.git
