@@ -34,7 +34,7 @@ jobs:
         run: echo "python_version=$(cat .python-version)" >> "$GITHUB_OUTPUT"
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v10.0.1
+        uses: astral-sh/setup-uv@v10.1.0
         with:
           python-version: ${{ steps.get-python-version.outputs.python_version }}
           # activate-environment: true
