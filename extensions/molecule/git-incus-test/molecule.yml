@@ -48,7 +48,7 @@ ansible:
     verify: verify.yml
 
 scenario:
-  name: ssh-incus-test
+  name: git-incus-test
   test_sequence:
     - dependency
     - destroy
