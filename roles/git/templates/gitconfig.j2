@@ -1,42 +1,42 @@
 [core]
-	editor = helix
-	pager = delta
+  editor = helix
+  pager = delta
 [user]
-	name = {{ git_name }}
-	email = {{ git_email }}
-	{% if git_signingkey is defined and git_signingkey %}
-    signingkey = {{ git_signingkey }}
-  {% endif %}
+  name = {{ git_name }}
+  email = {{ git_email }}
+{% if git_signingkey is defined and git_signingkey %}
+  signingkey = {{ git_signingkey }}
+{% endif %}
 [color]
-	ui = true
+  ui = true
 [init]
-	defaultBranch = {{ git_default_branch }}
+  defaultBranch = {{ git_default_branch }}
 
 {% if git_signingkey is defined and git_signingkey %}
 [commit]
-    gpgsign = true
+  gpgsign = true
 
 [gpg]
-    format = ssh
+  format = ssh
 
-    {% if git_use_1password %}
+{% if git_use_1password %}
 [gpg "ssh"]
     program = "/opt/1Password/op-ssh-sign"
-    {% endif %}
+{% endif %}
 {% endif %}
 [gpg]
-	format = ssh
+  format = ssh
 
 [commit]
-	gpgsign = true
+  gpgsign = true
 [tag]
   gpgSign = true
 [interactive]
-	diffFilter = delta --color-only
+  diffFilter = delta --color-only
 [delta]
-	navigate = true
-	dark = true
-	side-by-side = true
-	#light = true
+  navigate = true
+  dark = true
+  side-by-side = true
+  #light = true
 [merge]
-	conflictStyle = zdiff3
+  conflictStyle = zdiff3
