@@ -1,3 +1,8 @@
+- name: Change user login shell to Zsh
+  ansible.builtin.user:
+    name: "{{ ansible_facts['user_id'] }}"
+    shell: /usr/bin/zsh
+  become: true
 - name: Copy dotfiles file
   block:
     - name: Ensure target parent directories exist
