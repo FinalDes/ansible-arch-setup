@@ -6,8 +6,12 @@ kinds:
   - inventory: "**/molecule/*/inventory.yml"
 # Stop linting third-party roles downloaded from Galaxy
 exclude_paths:
-  - .ansible
-  - .github
+  - .ansible/
+  - .github/
+  - .venv/
+  - .vscode/
+  - ansible_collections/
+  - "README.md"
 
 # # Ignore rules that cause too much noise for your specific team
 # skip_list:
