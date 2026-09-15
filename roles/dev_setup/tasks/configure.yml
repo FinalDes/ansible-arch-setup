@@ -1,24 +1,39 @@
-- name: Copy ssh-audit config file
-  ansible.builtin.copy:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    owner: "{{ item.owner }}"
-    group: "{{ item.group }}"
-    mode: "0644"
-  loop:
-    - src: zsh/.zshrc
-      dest: "{{ ansible_facts['env']['HOME'] }}/.zshrc"
-      owner: "{{ ansible_user_id }}"
-      group: "{{ ansible_user_id }}"
-    - src: zsh/.p10k.zsh
-      dest: "{{ ansible_facts['env']['HOME'] }}/.p10k.zsh"
-      owner: "{{ ansible_user_id }}"
-      group: "{{ ansible_user_id }}"
-    - src: helix/config.toml
-      dest: "{{ ansible_facts['env']['HOME'] }}/.config/helix/config.toml"
-      owner: "{{ ansible_user_id }}"
-      group: "{{ ansible_user_id }}"
-    - src: bat/config
-      dest: "{{ ansible_facts['env']['HOME'] }}/.config/bat/config"
-      owner: "{{ ansible_user_id }}"
-      group: "{{ ansible_user_id }}"
+- name: Copy dotfiles file
+  block:
+    - name: Ensure target parent directories exist
+      ansible.builtin.file:
+        path: "{{ item.dest | dirname }}" 
+        state: directory
+        owner: "{{ item.owner }}"
+        group: "{{ item.group }}"
+        mode: "0755"
+      loop: "{{ dotfiles_list }}"
+
+    - name: Copy dotfiles file
+      ansible.builtin.copy:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+        owner: "{{ item.owner }}"
+        group: "{{ item.group }}"
+        mode: "0644"
+      loop: "{{ dotfiles_list }}"
+  
+  # This stores your list once so both tasks can use it cleanly
+  vars:
+    dotfiles_list:
+      - src: zsh/.zshrc
+        dest: "{{ ansible_facts['env']['HOME'] }}/.zshrc"
+        owner: "{{ ansible_facts['user_id'] }}" 
+        group: "{{ ansible_facts['user_id'] }}" 
+      - src: zsh/.p10k.zsh
+        dest: "{{ ansible_facts['env']['HOME'] }}/.p10k.zsh"
+        owner: "{{ ansible_facts['user_id'] }}" 
+        group: "{{ ansible_facts['user_id'] }}" 
+      - src: helix/config.toml
+        dest: "{{ ansible_facts['env']['HOME'] }}/.config/helix/config.toml"
+        owner: "{{ ansible_facts['user_id'] }}" 
+        group: "{{ ansible_facts['user_id'] }}" 
+      - src: bat/config
+        dest: "{{ ansible_facts['env']['HOME'] }}/.config/bat/config"
+        owner: "{{ ansible_facts['user_id'] }}" 
+        group: "{{ ansible_facts['user_id'] }}" 

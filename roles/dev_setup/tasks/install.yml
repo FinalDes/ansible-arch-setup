@@ -3,15 +3,18 @@
 - name: Pacman update
   community.general.pacman:
     update_cache: true
+  become: true
 - name: Install chezmoi
   community.general.pacman:
     name: chezmoi
     state: latest
+  become: true
   when: dev_setup_install_chezmoi
 - name: Install stow
   community.general.pacman:
     name: stow
     state: latest
+  become: true
   when: dev_setup_install_stow
 - name: Install dev tool using pacman
   community.general.pacman:
@@ -31,6 +34,7 @@
       - zsh-completions
       - zsh-syntax-highlighting
     state: latest
+  become: true
 - name: Install dev tool using yay
   kewlfft.aur.aur:
     name:
