@@ -1,13 +1,32 @@
+---
 - name: Change user login shell to Zsh
   ansible.builtin.user:
     name: "{{ ansible_facts['user_id'] }}"
     shell: /usr/bin/zsh
   become: true
 - name: Copy dotfiles file
+  vars:
+    dotfiles_list:
+      - src: zsh/.zshrc
+        dest: "{{ ansible_facts['env']['HOME'] }}/.zshrc"
+        owner: "{{ ansible_facts['user_id'] }}"
+        group: "{{ ansible_facts['user_id'] }}"
+      - src: zsh/.p10k.zsh
+        dest: "{{ ansible_facts['env']['HOME'] }}/.p10k.zsh"
+        owner: "{{ ansible_facts['user_id'] }}"
+        group: "{{ ansible_facts['user_id'] }}"
+      - src: helix/config.toml
+        dest: "{{ ansible_facts['env']['HOME'] }}/.config/helix/config.toml"
+        owner: "{{ ansible_facts['user_id'] }}"
+        group: "{{ ansible_facts['user_id'] }}"
+      - src: bat/config
+        dest: "{{ ansible_facts['env']['HOME'] }}/.config/bat/config"
+        owner: "{{ ansible_facts['user_id'] }}"
+        group: "{{ ansible_facts['user_id'] }}"
   block:
     - name: Ensure target parent directories exist
       ansible.builtin.file:
-        path: "{{ item.dest | dirname }}" 
+        path: "{{ item.dest | dirname }}"
         state: directory
         owner: "{{ item.owner }}"
         group: "{{ item.group }}"
@@ -22,23 +41,5 @@
         group: "{{ item.group }}"
         mode: "0644"
       loop: "{{ dotfiles_list }}"
-  
+
   # This stores your list once so both tasks can use it cleanly
-  vars:
-    dotfiles_list:
-      - src: zsh/.zshrc
-        dest: "{{ ansible_facts['env']['HOME'] }}/.zshrc"
-        owner: "{{ ansible_facts['user_id'] }}" 
-        group: "{{ ansible_facts['user_id'] }}" 
-      - src: zsh/.p10k.zsh
-        dest: "{{ ansible_facts['env']['HOME'] }}/.p10k.zsh"
-        owner: "{{ ansible_facts['user_id'] }}" 
-        group: "{{ ansible_facts['user_id'] }}" 
-      - src: helix/config.toml
-        dest: "{{ ansible_facts['env']['HOME'] }}/.config/helix/config.toml"
-        owner: "{{ ansible_facts['user_id'] }}" 
-        group: "{{ ansible_facts['user_id'] }}" 
-      - src: bat/config
-        dest: "{{ ansible_facts['env']['HOME'] }}/.config/bat/config"
-        owner: "{{ ansible_facts['user_id'] }}" 
-        group: "{{ ansible_facts['user_id'] }}" 

@@ -19,6 +19,7 @@
 - name: Install dev tool using pacman
   community.general.pacman:
     name:
+      - actionlint
       - bat
       - bat-extras
       - eza

@@ -11,4 +11,3 @@ argument_specs:
         type: bool
         default: true
         version_added: 1.0.0
-...

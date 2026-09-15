@@ -1,3 +1,4 @@
+---
 # .github/workflows/actionlint.yml
 name: Lint GitHub Actions workflows
 
