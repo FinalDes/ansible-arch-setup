@@ -2,10 +2,12 @@
 # .ansible-lint
 profile: production # Enforce strict production standards
 strict: true # Fail the build on any warnings, not just errors
-
+kinds:
+  - inventory: "**/molecule/*/inventory.yml"
 # Stop linting third-party roles downloaded from Galaxy
 exclude_paths:
   - .ansible
+  - .github
 
 # # Ignore rules that cause too much noise for your specific team
 # skip_list:
