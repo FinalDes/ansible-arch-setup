@@ -1,0 +1,5 @@
+---
+# defaults file for zsh_setup
+dev_setup_install_chezmoi: false
+dev_setup_install_stow: false
+dev_setup_install_p10k_font: false

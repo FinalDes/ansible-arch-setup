@@ -1,0 +1,24 @@
+---
+argument_specs:
+  main:
+    short_description: Auto-generated specs for dev_setup role - main entry point
+    description:
+      - my dev machine setup
+    author:
+      - Alex Alonso
+    options:
+      dev_setup_install_chezmoi:
+        description: Boolean flag to control dev setup install chezmoi
+        type: bool
+        default: false
+        version_added: 1.0.0
+      dev_setup_install_p10k_font:
+        description: Boolean flag to control dev setup install p10k font
+        type: bool
+        default: false
+        version_added: 1.0.0
+      dev_setup_install_stow:
+        description: Boolean flag to control dev setup install stow
+        type: bool
+        default: false
+        version_added: 1.0.0

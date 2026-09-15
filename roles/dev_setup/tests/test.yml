@@ -1,0 +1,6 @@
+---
+- name: Test dev setup
+  hosts: localhost
+  remote_user: root
+  roles:
+    - finaldes.arch_setup.dev_setup

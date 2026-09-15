@@ -1,0 +1,5 @@
+- name: Install package
+  ansible.builtin.import_playbook: install.yml
+
+- name: Configure programs
+  ansible.builtin.import_playbook: configure.yml

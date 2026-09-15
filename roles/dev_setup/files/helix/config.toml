@@ -1,0 +1,21 @@
+theme = "catppuccin_mocha"
+
+[editor]
+cursorline = true
+line-number = "relative"
+color-modes = true
+bufferline = "multiple"
+
+[editor.file-picker]
+hidden = false
+
+[editor.indent-guides]
+render = true
+character = "╎" # Good options: "╎", "┆", "┊", "·"
+skip-levels = 0
+
+[editor.statusline]
+left = ["mode", "spinner", "version-control", "file-modification-indicator"]
+center = ["file-name"]
+right = ["diagnostics", "selections", "file-type", "file-encoding", "position"]
+separator = "│"

@@ -1,0 +1,48 @@
+---
+# tasks file for zsh_setup
+- name: Pacman update
+  community.general.pacman:
+    update_cache: true
+- name: Install chezmoi
+  community.general.pacman:
+    name: chezmoi
+    state: latest
+  when: dev_setup_install_chezmoi
+- name: Install stow
+  community.general.pacman:
+    name: stow
+    state: latest
+  when: dev_setup_install_stow
+- name: Install dev tool using pacman
+  community.general.pacman:
+    name:
+      - bat
+      - bat-extras
+      - eza
+      - fzf
+      - fd
+      - git-delta
+      - glow
+      - helix
+      - just
+      - tree
+      - zsh
+      - zsh-autosuggestions
+      - zsh-completions
+      - zsh-syntax-highlighting
+    state: latest
+- name: Install dev tool using yay
+  kewlfft.aur.aur:
+    name:
+      - emoji-cli
+      - forgit
+      - fzf-tab
+      # - ttf-meslo-nerd-font-powerlevel10k
+      - zsh-theme-powerlevel10k
+    use: yay
+- name: Install Meslo Nerd Font patched for Powerlevel10k
+  kewlfft.aur.aur:
+    name:
+      - ttf-meslo-nerd-font-powerlevel10k
+    use: yay
+  when: dev_setup_install_p10k_font
