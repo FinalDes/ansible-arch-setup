@@ -9,25 +9,15 @@ dependency:
 driver:
   name: default
 platforms:
-  - name: arch-yay-test
-    image: archlinux/current/cloud/amd64
+  - name: molecule-test
+    image: debian/14/cloud/amd64
     login_user: ansible
     config:
       cloud-init.user-data: |
         #cloud-config
         users:
           - name: ansible
-            sudo: ['ALL=(ALL) NOPASSWD:ALL']
-            shell: /bin/bash
-  - name: arch-yay-bin-test
-    image: archlinux/current/cloud/amd64
-    login_user: ansible
-    config:
-      cloud-init.user-data: |
-        #cloud-config
-        users:
-          - name: ansible
-            sudo: ['ALL=(ALL) NOPASSWD:ALL']
+            sudo: ["ALL=(ALL) NOPASSWD:ALL"]
             shell: /bin/bash
 ansible:
   cfg:
@@ -51,20 +41,20 @@ ansible:
       #   - --execution-environment-image ghcr.io/ansible/community-ansible-dev-tools:latest
 
   playbooks:
-    create: ../lib/incus-dedicated/create.yml
-    prepare: ../lib/incus-dedicated/prepare.yml
+    create: ../../lib/incus-dedicated/create.yml
+    # prepare: ../../lib/incus-dedicated/prepare.yml
     converge: converge.yml
-    destroy: ../lib/incus-dedicated/destroy.yml
+    destroy: ../../lib/incus-dedicated/destroy.yml
     verify: verify.yml
 
 scenario:
-  name: yay-incus-test
+  name: debian/git-incus-test
   test_sequence:
     - dependency
     - destroy
     - syntax
     - create
-    - prepare
+    # - prepare
     - converge
     - idempotence
     - verify

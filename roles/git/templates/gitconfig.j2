@@ -1,5 +1,9 @@
 [core]
+{% if ansible_os_family == 'debian' %}
+  editor=hx
+{% else %}
   editor = helix
+{% endif %}
   pager = delta
 [user]
   name = {{ git_name }}

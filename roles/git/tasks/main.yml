@@ -1,6 +1,6 @@
 ---
 # tasks file for git_setup
-- name: Install git are installed
+- name: Install git git-delta and helix via pacman
   community.general.pacman:
     name:
       - git
@@ -10,6 +10,16 @@
     update_cache: true
   become: true
   when: ansible_facts['os_family'] == 'Archlinux'
+- name: Install git git-delta and helix via apt
+  ansible.builtin.apt:
+    name:
+      - git
+      - git-delta
+      - hx
+    state: present
+    update_cache: true
+  become: true
+  when: ansible_facts['os_family'] == 'Debian'
 - name: Deploy global git configuration from template
   ansible.builtin.template:
     src: "gitconfig.j2"

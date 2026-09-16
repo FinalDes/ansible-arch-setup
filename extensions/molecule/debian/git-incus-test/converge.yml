@@ -11,7 +11,10 @@
           - "!all"
           - "!min"
           - "user"
+          - "env"
+          - os_family
   roles:
-    - name: Install ssh
-      role: finaldes.arch_setup.ssh
-      become: true
+    - name: Install git
+      role: finaldes.arch_setup.git
+      git_name: Test
+      git_email: test@test.local
