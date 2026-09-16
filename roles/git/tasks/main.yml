@@ -9,6 +9,7 @@
     state: latest
     update_cache: true
   become: true
+  when: ansible_facts['os_family'] == 'Archlinux'
 - name: Deploy global git configuration from template
   ansible.builtin.template:
     src: "gitconfig.j2"
