@@ -1,5 +1,5 @@
 [core]
-{% if ansible_os_family == 'debian' %}
+{% if ansible_facts['os_family']  == 'debian' %}
   editor=hx
 {% else %}
   editor = helix
