@@ -2,6 +2,8 @@
 - name: Install package
   ansible.builtin.include_tasks: archlinux_install.yml
   when: ansible_facts['os_family'] == 'Archlinux'
-
+- name: Install package
+  ansible.builtin.include_tasks: archlinux_install.yml
+  when: ansible_facts['os_family'] == 'RedHat'
 - name: Configure programs
   ansible.builtin.include_tasks: configure.yml

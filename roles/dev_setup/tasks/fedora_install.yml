@@ -1,0 +1,44 @@
+---
+- name: Ensure dnf-plugins-core is installed
+  ansible.builtin.dnf:
+    name: dnf-plugins-core
+    state: present
+
+- name: Enable COPR repositories
+  community.general.copr:
+    name: "{{ item }}"
+    state: enabled
+  loop:
+    - dejan/lazygit
+    - awood/bat-extras
+# - name: Enable the awood/bat-extras Copr repository
+#   ansible.builtin.dnf:
+#     name: "copr:copr.fedorainfracloud.org/awood/bat-extras"
+#     state: present
+- name: Install chezmoi
+  ansible.builtin.dnf:
+    name: chezmoi
+    state: true
+  become: true
+  when: dev_setup_install_chezmoi
+- name: Install stow
+  ansible.builtin.dnf:
+    name: stow
+    state: true
+  become: true
+  when: dev_setup_install_stow
+- name: Install dev tools
+  ansible.builtin.dnf:
+    name:
+      - bat
+      - bat-extras
+      - eza
+      - fd-find
+      - fzf
+      - glow
+      - helix
+      - just
+      - lazygit
+      - tree
+      - zsh
+    state: present
