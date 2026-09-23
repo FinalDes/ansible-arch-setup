@@ -1,0 +1,3 @@
+---
+# defaults file for zsh
+zsh_install_p10k_font: false

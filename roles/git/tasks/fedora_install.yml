@@ -1,0 +1,22 @@
+- name: Ensure dnf-plugins-core is installed
+  ansible.builtin.dnf:
+    name: dnf-plugins-core
+    state: present
+  become: true
+- name: Enable COPR repositories
+  community.general.copr:
+    name: "{{ item }}"
+    state: enabled
+  become: true
+  loop:
+    - dejan/lazygit
+    # - awood/bat-extras
+- name: Install dev tools
+  ansible.builtin.dnf:
+    name:
+      - git
+      - git-delta
+      - helix
+      - lazygit
+    state: present
+  become: true

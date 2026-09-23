@@ -4,6 +4,9 @@
 - name: Converge
   hosts: all
   gather_facts: false # Disable if your role does not rely on facts
+  vars:
+    git_name: Test
+    git_email: test@test.local
   pre_tasks:
     - name: Gather Facts
       ansible.builtin.setup:
@@ -16,10 +19,10 @@
   roles:
     - name: Install git
       role: finaldes.arch_setup.git
-      git_name: Test
-      git_email: test@test.local
     - name: Install yay
       role: finaldes.arch_setup.yay
     - name: Setup my computer
       role: finaldes.arch_setup.dev_setup
-      dev_setup_install_p10k_font: true
+    - name: Setup zsh
+      role: finaldes.arch_setup.zsh
+      zsh_install_p10k_font: true

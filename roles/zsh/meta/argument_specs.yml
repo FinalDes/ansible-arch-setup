@@ -1,0 +1,14 @@
+---
+argument_specs:
+  main:
+    short_description: Auto-generated specs for zsh role - main entry point
+    description:
+      - my zsh setup
+    author:
+      - Alex Alonso
+    options:
+      zsh_install_p10k_font:
+        description: Boolean flag to control install p10k font
+        type: bool
+        default: false
+        version_added: 1.0.0

@@ -38,7 +38,5 @@
       - glow
       - helix
       - just
-      - lazygit
       - tree
-      - zsh
     state: present

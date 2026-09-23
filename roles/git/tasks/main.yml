@@ -6,6 +6,7 @@
       - git
       - git-delta
       - helix
+      - lazygit
     state: latest
     update_cache: true
   become: true
@@ -16,10 +17,14 @@
       - git
       - git-delta
       - hx
+      - lazygit
     state: present
     update_cache: true
   become: true
   when: ansible_facts['os_family'] == 'Debian'
+- name: Install package in RedHat
+  ansible.builtin.include_tasks: fedora_install.yml
+  when: ansible_facts['os_family'] == 'RedHat'
 - name: Deploy global git configuration from template
   ansible.builtin.template:
     src: "gitconfig.j2"
