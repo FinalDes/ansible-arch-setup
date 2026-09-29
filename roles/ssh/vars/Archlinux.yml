@@ -1,0 +1,2 @@
+ssh_service_name: "sshd"
+ssh_dameon_binary_path: "/usr/bin/sshd"

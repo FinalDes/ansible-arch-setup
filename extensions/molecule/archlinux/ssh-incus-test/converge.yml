@@ -11,6 +11,7 @@
           - "!all"
           - "!min"
           - "user"
+          - "distribution"
   roles:
     - name: Install ssh
       role: finaldes.arch_setup.ssh

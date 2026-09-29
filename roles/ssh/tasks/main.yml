@@ -1,9 +1,23 @@
 ---
 # tasks file for roles/ssh
+- name: Load platform-specific variables
+  ansible.builtin.include_vars: "{{ ansible_facts['os_family'] }}.yml"
 - name: Install openssh
   community.general.pacman:
     name: openssh
     state: present
+  when: ansible_facts['os_family'] == 'Archlinux'
+- name: Install openssh (Debian/Ubuntu)
+  ansible.builtin.apt:
+    name: openssh-server
+    state: present
+  when: ansible_facts['os_family'] == 'Debian'
+
+- name: Install openssh (RedHat/Alma/Rocky)
+  ansible.builtin.dnf:
+    name: openssh-server
+    state: present
+  when: ansible_facts['os_family'] == 'RedHat'
 - name: Ensure ssh_users group exists
   ansible.builtin.group:
     name: "{{ ssh_user_group }}"
@@ -21,16 +35,17 @@
     owner: root
     group: root
     mode: "0600"
+    force: false
 - name: Copy ssh-audit config file
   ansible.builtin.copy:
-    src: ssh-audit_hardening.conf
+    src: "ssh-audit_{{ ansible_facts['distribution'] }}_{{ ansible_facts['distribution_version'] if ansible_facts['os_family'] != 'Archlinux' else '' }}.conf"
     dest: /etc/ssh/sshd_config.d/999-audit_hardening.conf
     owner: root
     group: root
     mode: "0644"
-    validate: /usr/sbin/sshd -t -f %s
+    validate: "{{ ssh_dameon_binary_path }} -t -f %s"
   notify: Restart SSHD
-  when: ssh_restrict_key_exchange | bool
+  when: ansible_facts['os_family'] in ['Debian', 'Archlinux'] and ssh_restrict_key_exchange | bool
 - name: Configure SSH to disable weak host keys
   ansible.builtin.template:
     src: harderning.conf.j2
@@ -38,10 +53,10 @@
     owner: root
     group: root
     mode: "0644"
-    validate: /usr/sbin/sshd -t -f %s
+    validate: "{{ ssh_dameon_binary_path }} -t -f %s"
   notify: Restart SSHD
 - name: Ensure sshd is running and enabled
   ansible.builtin.systemd_service:
-    name: sshd
+    name: "{{ ssh_service_name }}"
     state: started
     enabled: true
