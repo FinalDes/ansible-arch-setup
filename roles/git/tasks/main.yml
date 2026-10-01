@@ -11,6 +11,9 @@
     update_cache: true
   become: true
   when: ansible_facts['os_family'] == 'Archlinux'
+- name: Add github ppa when is ubuntu
+  ansible.builtin.include_tasks: ubuntu_install.yml
+  when: ansible_facts.distribution == "Ubuntu"
 - name: Install git git-delta and helix via apt
   ansible.builtin.apt:
     name:

@@ -9,8 +9,18 @@ dependency:
 driver:
   name: default
 platforms:
-  - name: molecule-test
+  - name: molecule-debian-test
     image: debian/14/cloud/amd64
+    login_user: ansible
+    config:
+      cloud-init.user-data: |
+        #cloud-config
+        users:
+          - name: ansible
+            sudo: ["ALL=(ALL) NOPASSWD:ALL"]
+            shell: /bin/bash
+  - name: molecule-ubuntu-test
+    image: ubuntu/26.04/cloud/amd64
     login_user: ansible
     config:
       cloud-init.user-data: |
