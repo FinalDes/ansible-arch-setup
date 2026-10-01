@@ -1,0 +1,20 @@
+---
+# Purpose: bring the instance to the desired state by running the role under test.
+# Molecule calls this playbook with `molecule converge`.
+- name: Converge
+  hosts: all
+  gather_facts: false # Disable if your role does not rely on facts
+  pre_tasks:
+    - name: Gather Facts
+      ansible.builtin.setup:
+        gather_subset:
+          - "!all"
+          - "!min"
+          - "distribution"
+          - "os_family"
+          - "env"
+          - "user"
+          # - os_family
+  roles:
+    - name: Install docker
+      role: finaldes.arch_setup.docker
