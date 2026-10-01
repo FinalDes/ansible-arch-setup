@@ -1,0 +1,4 @@
+---
+# defaults file for ansible-uv
+uv_version: "0.12.21"
+uv_skip_cleanup: false

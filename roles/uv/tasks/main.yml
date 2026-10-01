@@ -1,0 +1,77 @@
+---
+- name: Ensure prerequisites are installed
+  become: true
+  ansible.builtin.apt:
+    name:
+      - curl
+      - tar
+    state: present
+    update_cache: true
+
+- name: Detect architecture
+  ansible.builtin.set_fact:
+    uv_arch: "{{ uv_arch_map[ansible_facts['architecture']] | default('x86_64-unknown-linux-gnu') }}"
+    uv_archive: "{{ uv_archive_map[uv_arch_map[ansible_facts['architecture']] | default('x86_64-unknown-linux-gnu')] | default('uv-x86_64-unknown-linux-gnu.tar.gz') }}" # noqa: yaml[line-length]
+
+- name: Create install directory
+  ansible.builtin.file:
+    path: "{{ uv_install_dir }}"
+    state: directory
+    mode: "0755"
+
+- name: Download uv .sha256 checksum file
+  ansible.builtin.get_url:
+    url: "https://github.com/{{ uv_owner }}/{{ uv_repo }}/releases/download/{{ uv_version }}/{{ uv_archive }}.sha256"
+    dest: "/tmp/{{ uv_archive }}.sha256"
+    mode: "0644"
+
+- name: Read checksum file from remote host
+  ansible.builtin.slurp:
+    src: "/tmp/{{ uv_archive }}.sha256"
+  register: uv_checksum_file
+
+- name: Extract checksum value from .sha256 file
+  ansible.builtin.set_fact:
+    uv_checksum: "{{ (uv_checksum_file['content'] | b64decode) | regex_search('([a-f0-9]{64})', '\\1') }}"
+
+- name: Download uv release archive with checksum verification
+  ansible.builtin.get_url:
+    url: "https://github.com/{{ uv_owner }}/{{ uv_repo }}/releases/download/{{ uv_version }}/{{ uv_archive }}"
+    dest: "/tmp/{{ uv_archive }}"
+    mode: "0644"
+    checksum: "sha256:{{ uv_checksum }}"
+
+- name: Extract uv binaries
+  ansible.builtin.unarchive:
+    src: "/tmp/{{ uv_archive }}"
+    dest: "{{ uv_install_dir }}"
+    remote_src: true
+    extra_opts: ["--strip-components=1"]
+
+- name: Ensure uv and uvx binaries are executable
+  ansible.builtin.file:
+    path: "{{ uv_install_dir }}/{{ item }}"
+    mode: "0755"
+  loop:
+    - uv
+    - uvx
+  when: ansible_facts['architecture'] in ['x86_64', 'aarch64', 'armv7l', 'i686']
+
+- name: Add install dir to PATH in .profile
+  ansible.builtin.lineinfile:
+    path: "{{ ansible_facts['env']['HOME'] }}/.profile"
+    line: 'export PATH="{{ uv_install_dir }}:$PATH"'
+    insertafter: EOF
+    state: present
+
+- name: Clean up archive and sha256 file
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - "/tmp/{{ uv_archive }}"
+    - "/tmp/{{ uv_archive }}.sha256"
+  when: not uv_skip_cleanup | default(true)
+# import completions task here
+# - name: Import completion tasks
+#   ansible.builtin.include_tasks: completion.yml

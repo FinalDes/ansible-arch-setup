@@ -1,0 +1,24 @@
+---
+- name: Check if completions directory exists
+  ansible.builtin.stat:
+    path: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/completions"
+  register: uv_completions_dir_stat
+
+- name: Generate zsh completion if folder is exists
+  when: uv_completions_dir_stat.stat.exists  && uv_completions_dir_stat.stat.isdir
+  block:
+    - name: Generate uv and uvx zsh completions
+      ansible.builtin.command:
+        cmd: "{{ uv_install_dir }}/{{ item }} generate-shell-completion zsh"
+      register: uv_completion_results
+      changed_when: false
+      loop:
+        - uv
+        - uvx
+
+    - name: Store uv and uvx zsh completions
+      ansible.builtin.copy:
+        dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/completions/_{{ item.item }}"
+        content: "{{ item.stdout }}"
+        mode: "0644"
+      loop: "{{ uv_completion_results.results }}"

@@ -1,0 +1,15 @@
+---
+argument_specs:
+  main:
+    short_description: Install and configure UV from GitHub releases
+    options:
+      uv_version:
+        type: str
+        required: false
+        default: "0.12.20"
+        description: Version of UV to install
+      uv_skip_cleanup:
+        type: bool
+        required: false
+        default: false
+        description: If true, skip cleanup of downloaded archive and checksum files
