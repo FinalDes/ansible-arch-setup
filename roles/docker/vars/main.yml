@@ -1,3 +1,7 @@
-# SPDX-License-Identifier: MIT-0
 ---
 # vars file for docker
+docker_rhel_repo_paths:
+  Fedora: fedora
+  AlmaLinux: centos
+  CentOS: centos
+  RedHat: rhel

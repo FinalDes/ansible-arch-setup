@@ -1,0 +1,17 @@
+- name: Add Docker repository
+  ansible.builtin.yum_repository:
+    name: "docker-ce-{{ docker_release_channel }}"
+    description: "Docker CE {{ docker_release_channel }} - {{ docker_rhel_repo_paths[ansible_distribution] }}"
+    baseurl: "https://download.docker.com/linux//{{ docker_rhel_repo_paths[ansible_distribution] }}/$releasever/$basearch/{{ docker_release_channel }}"
+    enabled: true
+    gpgcheck: true
+    gpgkey: https://download.docker.com/linux/{{ docker_rhel_repo_paths[ansible_distribution] }}/gpg
+- name: Install Docker packages
+  ansible.builtin.dnf:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+    state: present

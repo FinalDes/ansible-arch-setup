@@ -19,3 +19,8 @@
     append: true
   become: true
   when: docker_add_user_to_group | bool
+- name: Enable and start Docker service
+  ansible.builtin.systemd:
+    name: docker
+    enabled: true
+    state: started
