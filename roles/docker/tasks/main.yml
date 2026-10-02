@@ -9,7 +9,9 @@
       - docker-buildx
     state: latest
   become: true
-  when: ansible_facts['os_family'] in ['Archlinux'] and docker_release_channel == 'stable'
+  when:
+    - ansible_facts['os_family'] in ['Archlinux']
+    - docker_release_channel == 'stable'
 - name: Add current user to docker group
   ansible.builtin.user:
     name: "{{ ansible_facts['user_id'] }}"

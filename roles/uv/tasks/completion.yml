@@ -5,7 +5,9 @@
   register: uv_completions_dir_stat
 
 - name: Generate zsh completion if folder is exists
-  when: uv_completions_dir_stat.stat.exists  && uv_completions_dir_stat.stat.isdir
+  when:
+    - uv_completions_dir_stat.stat.exists
+    - uv_completions_dir_stat.stat.isdir
   block:
     - name: Generate uv and uvx zsh completions
       ansible.builtin.command:

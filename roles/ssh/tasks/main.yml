@@ -45,7 +45,9 @@
     mode: "0644"
     validate: "{{ ssh_dameon_binary_path }} -t -f %s"
   notify: Restart SSHD
-  when: ansible_facts['os_family'] in ['Debian', 'Archlinux'] and ssh_restrict_key_exchange | bool
+  when:
+    - ansible_facts['os_family'] in ['Debian', 'Archlinux']
+    - ssh_restrict_key_exchange | bool
 - name: Configure SSH to disable weak host keys
   ansible.builtin.template:
     src: harderning.conf.j2
