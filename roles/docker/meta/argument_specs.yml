@@ -1,0 +1,18 @@
+---
+argument_specs:
+  main:
+    short_description: Install and configure Docker Engine
+    options:
+      docker_add_user_to_group:
+        description: Add current user to docker group
+        type: bool
+        default: true
+        version_added: 1.0.0
+      docker_release_channel:
+        description: Docker release channel
+        type: str
+        default: stable
+        choices:
+          - stable
+          - test
+        version_added: 1.0.0
