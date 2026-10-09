@@ -7,6 +7,11 @@ argument_specs:
     author:
       - Alex Alonso
     options:
+      git_extra_tools:
+        description: "the flag for do you want extra tools"
+        type: bool
+        default: false
+        version_added: 1.0.0
       git_default_branch:
         description: "Default branch name name default to main"
         type: str
