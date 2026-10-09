@@ -1,0 +1,77 @@
+- name: Install system dependencies for Ubuntu/Debian
+  ansible.builtin.apt:
+    name:
+      - build-essential
+      - git
+      - file
+      - procps
+    state: present
+    update_cache: true
+  when: ansible_os_family == "Debian"
+
+- name: Install system dependencies for RHEL/Fedora/CentOS
+  ansible.builtin.dnf:
+    name:
+      - "@development-tools"
+      - git
+      - file
+      - procps-ng
+    state: present
+  when: ansible_os_family == "RedHat"
+
+- name: Check if Homebrew is already installed
+  ansible.builtin.stat:
+    path: /home/linuxbrew/.linuxbrew/bin/brew
+  register: linuxbrew_check
+  become: false
+
+- name: Download the official Homebrew installer script
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh
+    dest: /tmp/install_homebrew.sh
+    mode: "0700" # Explicitly sets read/write/execute for the owner only
+  when: not linuxbrew_check.stat.exists
+  become: false
+
+- name: Execute the Homebrew installer script
+  ansible.builtin.command:
+    cmd: /bin/bash /tmp/install_homebrew.sh
+  environment:
+    NONINTERACTIVE: "1"
+  when: not linuxbrew_check.stat.exists
+  become: false
+  changed_when: true
+
+- name: Clean up the installer script
+  ansible.builtin.file:
+    path: /tmp/install_homebrew.sh
+    state: absent
+  when: not linuxbrew_check.stat.exists
+  become: false
+
+- name: Add Homebrew to Bash Interactive Shells (.bashrc)
+  ansible.builtin.lineinfile:
+    path: "{{ ansible_env.HOME }}/.bashrc"
+    line: 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"'
+    create: true
+    mode: "0644"
+    state: present
+  become: false
+
+- name: Add Homebrew to Bash Login Shells (.profile)
+  ansible.builtin.lineinfile:
+    path: "{{ ansible_env.HOME }}/.profile"
+    line: 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"'
+    create: true
+    mode: "0644"
+    state: present
+  become: false
+
+- name: Add Homebrew to Zsh Shells (.zshrc)
+  ansible.builtin.lineinfile:
+    path: "{{ ansible_env.HOME }}/.zshrc"
+    line: 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"'
+    create: true
+    mode: "0644"
+    state: present
+  become: false
