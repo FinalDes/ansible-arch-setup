@@ -36,7 +36,6 @@
       - fd-find
       - fzf
       - glow
-      - helix
       - just
       - tree
     state: present

@@ -1,9 +1,12 @@
 ---
-- name: Install package
+- name: Install package on Archlinux
   ansible.builtin.include_tasks: archlinux_install.yml
   when: ansible_facts['os_family'] == 'Archlinux'
-- name: Install package
+- name: Install package on fedora
   ansible.builtin.include_tasks: fedora_install.yml
   when: ansible_facts['os_family'] == 'RedHat'
+- name: Install package on debian
+  ansible.builtin.include_tasks: debian_install.yml
+  when: ansible_facts['os_family'] == 'Debian'
 - name: Configure programs
   ansible.builtin.include_tasks: configure.yml

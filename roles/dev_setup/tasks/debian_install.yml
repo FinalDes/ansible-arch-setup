@@ -1,0 +1,29 @@
+---
+- name: Apt update
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 3600
+  become: true
+- name: Install stow
+  ansible.buildtin.apt:
+    name: stow
+    present: true
+  when: dev_setup_install_stow
+- name: Install chezmoi
+  ansible.builtin.apt:
+    name: chezmoi
+    present: true
+  when: dev_setup_install_chezmoi
+- name: Install dev tools
+  ansible.builtin.apt:
+    name:
+      - bat
+      - eza
+      - fzf
+      - fd-find
+      - glow
+      - just
+      - tree
+    state: present
+    update_cache: true
+  become: true
