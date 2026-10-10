@@ -1,0 +1,17 @@
+---
+argument_specs:
+  main:
+    short_description: Harden and configure OpenSSH server and sudo behavior.
+    description:
+      - Install and configure OpenSSH with secure defaults.
+      - Optionally harden crypto algorithms and disable password authentication.
+      - Manage sudo password-less access for the connecting user.
+    author:
+      - Alex Alonso
+    options:
+      ssh_authorization_key_path:
+        type: str
+        required: false
+        description:
+          - Path to a public key file whose content will be added to the user's authorized_keys.
+          - If undefined, no key is added.

@@ -1,0 +1,7 @@
+---
+# tasks file for ssh_authorization
+- name: Setup authorized_key
+  ansible.posix.authorized_key:
+    user: "{{ ansible_facts['user_id'] }}"
+    key: "{{ ssh_authorization_key_path }}"
+  # when: ssh_public_key_path is defined

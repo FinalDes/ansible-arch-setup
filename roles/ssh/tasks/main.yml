@@ -20,14 +20,14 @@
   when: ansible_facts['os_family'] == 'RedHat'
 - name: Ensure ssh_users group exists
   ansible.builtin.group:
-    name: "{{ ssh_user_group }}"
+    name: "{{ ssh_user_group_name }}"
     state: present
 - name: Add current user to ssh_users group
   ansible.builtin.user:
     name: "{{ ansible_facts['user_id'] }}"
-    groups: "{{ ssh_user_group }}"
+    groups: "{{ ssh_user_group_name }}"
     append: true
-  when: ssh_add_ssh_user | bool
+  when: ssh_user_add_into_group | bool
 - name: Generate the Ed25519 SSH host key natively
   community.crypto.openssh_keypair:
     path: /etc/ssh/ssh_host_ed25519_key

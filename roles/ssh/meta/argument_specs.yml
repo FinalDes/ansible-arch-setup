@@ -19,16 +19,12 @@ argument_specs:
           - Deploy hardened ssh-audit configuration limiting key exchange, ciphers, and MACs.
         type: bool
         default: false
-      ssh_add_ssh_user:
+      ssh_user_add_into_group:
         description:
           - current user add to ssh_user group
         type: bool
         default: true
-      ssh_user_group:
+      ssh_user_group_name:
         type: str
         default: "ssh_access_group"
         description: "The name of the group to add the user to."
-      ssh_public_key_path:
-        description:
-          - Path to a public key file whose content will be added to the user's authorized_keys.
-          - If undefined, no key is added.
