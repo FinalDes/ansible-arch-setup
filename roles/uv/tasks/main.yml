@@ -72,6 +72,11 @@
     - "/tmp/{{ uv_archive }}"
     - "/tmp/{{ uv_archive }}.sha256"
   when: not uv_skip_cleanup | default(true)
+
+- name: Install python
+  ansible.builtin.command: ~/.local/bin/uv python install --preview
+  when: uv_install_python is true
+  changed_when: false
 # import completions task here
 # - name: Import completion tasks
 #   ansible.builtin.include_tasks: completion.yml

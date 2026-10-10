@@ -13,3 +13,8 @@ argument_specs:
         required: false
         default: false
         description: If true, skip cleanup of downloaded archive and checksum files
+      uv_install_python:
+        type: bool
+        required: false
+        default: false
+        description: If true, will install install python using uv
