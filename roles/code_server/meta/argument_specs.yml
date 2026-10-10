@@ -1,0 +1,11 @@
+---
+argument_specs:
+  main:
+    short_description: code server setup
+    options:
+      code_server_version:
+        description: "Code server download version"
+        type: str
+        default: 4.141.0
+        version_added: 1.0.0
+...

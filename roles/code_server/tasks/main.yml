@@ -1,0 +1,39 @@
+---
+- name: Set download attributes for Debian
+  ansible.builtin.set_fact:
+    code_server_file: "code-server_{{ code_server_version }}_amd64.deb"
+  when: ansible_os_family == "Debian"
+
+- name: Set download attributes for RPM-based systems
+  ansible.builtin.set_fact:
+    code_server_file: "code-server-{{ code_server_version }}-amd64.rpm"
+  when: ansible_os_family == "RedHat"
+
+- name: Download code-server package
+  ansible.builtin.get_url:
+    url: "https://github.com/coder/code-server/releases/download/v{{ code_server_version }}/{{ code_server_file }}"
+    dest: "{{ ansible_facts.user_dir }}/{{ code_server_file }}"
+    mode: "0644"
+
+- name: Install code-server on Debian
+  ansible.builtin.apt:
+    deb: "{{ ansible_facts.user_dir }}/{{ code_server_file }}"
+  become: true
+  when: ansible_os_family == "Debian"
+  notify: Start code-server
+
+- name: Install code-server on RPM-based systems
+  ansible.builtin.dnf:
+    name: "{{ ansible_facts.user_dir }}/{{ code_server_file }}"
+    state: present
+  become: true
+  when: ansible_os_family == "RedHat"
+  notify: Start code-server
+
+- name: Install code-server on Arch Linux systems
+  community.general.pacman:
+    name: code-server
+    state: present
+  become: true
+  when: ansible_facts['os_family'] == 'Archlinux'
+  notify: Start code-server

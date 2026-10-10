@@ -1,0 +1,7 @@
+---
+- name: Start code-server
+  ansible.builtin.systemd:
+    name: code-server@ansible
+    enabled: true
+    state: started
+  become: true
