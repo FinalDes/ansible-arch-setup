@@ -1,0 +1,18 @@
+- name: Install Incus packages
+  ansible.builtin.package:
+    name: incus
+    state: present
+  become: true
+
+- name: Ensure incus group exists
+  ansible.builtin.group:
+    name: incus
+    state: present
+  become: true
+
+- name: Add manage user to incus group
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    groups: incus
+    append: true
+  become: true

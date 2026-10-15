@@ -1,0 +1,33 @@
+- name: Check if Incus is already initialized
+  ansible.builtin.command: incus profile show default
+  register: incus_init_check
+  changed_when: false
+  failed_when: false
+
+- name: Initialize Incus with preseed configuration
+  ansible.builtin.command: incus admin init --preseed
+  args:
+    stdin: |
+      config: {}
+      networks:
+      - name: incusbr0
+        type: bridge
+        config:
+          ipv4.address: auto
+          ipv6.address: auto
+      storage_pools:
+      - name: default
+        driver: dir
+      profiles:
+      - name: default
+        devices:
+          eth0:
+            name: eth0
+            network: incusbr0
+            type: nic
+          root:
+            path: /
+            pool: default
+            type: disk
+  when: "'incusbr0' not in incus_init_check.stdout"
+  changed_when: false
